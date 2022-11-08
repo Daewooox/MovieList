@@ -6,7 +6,7 @@ From MVVM perspective, view controller is only responsible for altering views an
 For bindings in MVVM I used RxSwift because it more elegant solution for this approach.
 And Coordinators are a great tool because they free our ViewController’s from a responsibility that they should not have. This helps us adhere to the single responsibility principle, which makes our ViewController’s much cleaner and easier to reuse.
 
-##Binding and data passing
+## Binding and data passing
 For data communication I chose RxSwift/RxCocoa because that's good library for working with asynchronous code that presents events as streams of events with the ability to subscribe to them, and also allows you to apply functional programming approaches to them, which greatly simplifies working with complex sequences of asynchronous events.
 
 ## Networking 
