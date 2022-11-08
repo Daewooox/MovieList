@@ -1,23 +1,16 @@
-//
-//  MovieListTableViewCell.swift
-//  MovieList
-//
-//  Created by Alexander on 2.11.22.
-//
-
 import UIKit
 import SDWebImage
 
-class MovieListTableViewCell: UITableViewCell {
+final class MovieListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var rightImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var genreLabel: UILabel!
-    @IBOutlet weak var rateProgressView: UIProgressView!
-    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet private var posterImageView: UIImageView!
+    @IBOutlet private var rightImageView: UIImageView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var genreLabel: UILabel!
+    @IBOutlet private var rateProgressView: UIProgressView!
+    @IBOutlet private var rateLabel: UILabel!
     
-    private let placeholderImage = UIImage(systemName: "xmark")
+    private let placeholderImage = UIImage(named: "imagePlaceholder")
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -23,4 +23,9 @@ pod 'XCoordinator/RxSwift'
 pod 'SwiftLint'
 pod 'R.swift'
 
+target 'MovieListTests' do
+inherit! :search_paths
+    
+end
+
 end

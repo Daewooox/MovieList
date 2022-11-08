@@ -2,17 +2,25 @@ import Foundation
 import Moya
 import RxSwift
 
-final class NetworkManager {
-    private var provider: MoyaProvider<APIService>
+protocol MovieServiceType {
+    func getMovieList(with string: String?, page: Int) -> Observable<[MovieModel]>
     
-    private static var sharedNetworkManager: NetworkManager = { return NetworkManager() }()
+    func getGenresList() -> Observable<[GenreModel]>
+    
+    func getMovieCredits(by id: String) -> Observable<MovieCreditsModel>
+}
 
-    static func shared() -> NetworkManager {
-        return sharedNetworkManager
+final class MovieService: MovieServiceType {
+    private let provider: MoyaProvider<MovieAPIService>
+    
+    private static var sharedService: MovieService = { return MovieService() }()
+
+    static func shared() -> MovieService {
+        return sharedService
     }
     
     init() {
-        provider = MoyaProvider<APIService>()
+        provider = MoyaProvider<MovieAPIService>()
     }
     
     func getMovieList(with string: String?, page: Int) -> Observable<[MovieModel]> {

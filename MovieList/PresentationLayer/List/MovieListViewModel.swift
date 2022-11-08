@@ -4,7 +4,7 @@ import RxCocoa
 import XCoordinator
 import Resolver
 
-class MovieListViewModel: MovieListViewModelProtocol, MovieListViewModelInput, MovieListViewModelOutput {
+final class MovieListViewModel: MovieListViewModelProtocol, MovieListViewModelInput, MovieListViewModelOutput {
        
     private(set) lazy var loadNextPageTrigger = loadNextPageAction.inputs
     private(set) lazy var detailsTrigger = detailsAction.inputs
@@ -31,15 +31,16 @@ class MovieListViewModel: MovieListViewModelProtocol, MovieListViewModelInput, M
     
     private let router: UnownedRouter<AppRoute>
     private let disposeBag = DisposeBag()
-    @LazyInjected private var networkManager: NetworkManager
+    private let movieService: MovieServiceType
     
-    init(router: UnownedRouter<AppRoute>) {
+    init(router: UnownedRouter<AppRoute>, movieService: MovieServiceType) {
         self.router = router
+        self.movieService = movieService
         searchString.asObservable()
             .skip(1)
-            .subscribe(onNext: { [unowned self] searchString in
-                self.resetData()
-                self.fetchMovies(for: searchString)
+            .subscribe(with: self, onNext: { object, model in
+                object.resetData()
+                object.fetchMovies(for: model)
             }).disposed(by: disposeBag)
         fetchGenres()
     }
@@ -53,17 +54,17 @@ private extension MovieListViewModel {
     }
     
     func fetchMovies(for string: String) {
-        networkManager.getMovieList(with: string.isEmpty ? nil : string, page: pageCounter)
-            .subscribe(onNext: { [unowned self] in
-                self.movies.accept(self.movies.value + $0.map { MovieViewModel(movie: $0, genres: genres.value) })
+        movieService.getMovieList(with: string.isEmpty ? nil : string, page: pageCounter)
+            .subscribe(with: self, onNext: { object, model in
+                object.movies.accept(object.movies.value + model.map { MovieViewModel(movie: $0, genres: object.genres.value) })
             }).disposed(by: disposeBag)
     }
     
     func fetchGenres() {
-        networkManager.getGenresList()
-            .subscribe(onNext: { [unowned self] in
-                self.genres.accept($0)
-                self.genresUpdated.accept(true)
+        movieService.getGenresList()
+            .subscribe(with: self, onNext: { object, model in
+                object.genres.accept(model)
+                object.genresUpdated.accept(true)
             }).disposed(by: disposeBag)
     }
 }

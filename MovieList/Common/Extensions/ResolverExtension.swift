@@ -2,6 +2,6 @@ import Resolver
 
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
-        Resolver.register { NetworkManager.shared() }
+        Resolver.register { MovieService.shared() }
     }
 }

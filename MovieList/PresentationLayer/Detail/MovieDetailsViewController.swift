@@ -2,22 +2,22 @@ import UIKit
 import RxSwift
 import SDWebImage
 
-class MovieDetailsViewController: UIViewController, BindableType {
+final class MovieDetailsViewController: UIViewController, BindableType {
     
     private enum Constants {
         static let rightBarButtonTitle = " 🏆"
     }
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var overviewLabel: UILabel!
-    @IBOutlet weak var overviewDescriptionLabel: UILabel!
-    @IBOutlet weak var castLabel: UILabel!
-    @IBOutlet weak var castDescriptionLabel: UILabel!
+    @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet private var posterImageView: UIImageView!
+    @IBOutlet private var overviewLabel: UILabel!
+    @IBOutlet private var overviewDescriptionLabel: UILabel!
+    @IBOutlet private var castLabel: UILabel!
+    @IBOutlet private var castDescriptionLabel: UILabel!
     
     var viewModel: MovieDetailsViewModel!
     private let disposeBag = DisposeBag()
-    private let placeholderImage = UIImage(systemName: "xmark")
+    private let placeholderImage = UIImage(named: "imagePlaceholder")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,25 +26,25 @@ class MovieDetailsViewController: UIViewController, BindableType {
     
     func bindViewModel() {
         viewModel.output.movie
-            .subscribe(onNext: { [unowned self] in
-                self.title = $0.title
+            .subscribe(with: self, onNext: { object, model in
+                object.title = model.title
                 let rateLabel = UILabel()
-                rateLabel.text = "\($0.rate)" + Constants.rightBarButtonTitle
+                rateLabel.text = "\(model.rate)" + Constants.rightBarButtonTitle
                 rateLabel.font = .systemFont(ofSize: 18, weight: .semibold)
                 rateLabel.textColor = .lightGray
                 let voteAverageBarItem = UIBarButtonItem(customView: rateLabel)
-                navigationItem.rightBarButtonItem = voteAverageBarItem
+                object.navigationItem.rightBarButtonItem = voteAverageBarItem
                 
-                if let urlString = $0.posterImagePath {
-                    posterImageView.sd_setImage(
+                if let urlString = model.posterImagePath {
+                    object.posterImageView.sd_setImage(
                         with: URL(string: urlString),
-                        placeholderImage: placeholderImage
+                        placeholderImage: object.placeholderImage
                     )
                 } else {
-                    posterImageView.image = placeholderImage
+                    object.posterImageView.image = object.placeholderImage
                 }
-                self.overviewDescriptionLabel.text = $0.overview
-                self.castDescriptionLabel.text = $0.cast
+                object.overviewDescriptionLabel.text = model.overview
+                object.castDescriptionLabel.text = model.cast
             }).disposed(by: disposeBag)
     }
     

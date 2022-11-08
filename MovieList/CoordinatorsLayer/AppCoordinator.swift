@@ -1,5 +1,6 @@
 import UIKit
 import XCoordinator
+import Resolver
 
 enum AppRoute: Route {
     case movieList
@@ -7,6 +8,7 @@ enum AppRoute: Route {
 }
 
 class AppCoordinator: NavigationCoordinator<AppRoute> {
+    @LazyInjected private var movieService: MovieService
     
     init() {
         super.init(initialRoute: .movieList)
@@ -22,12 +24,12 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
         switch route {
         case .movieList:
             let viewController = R.storyboard.home.movieListViewController()!
-            let viewModel = MovieListViewModel(router: unownedRouter)
+            let viewModel = MovieListViewModel(router: unownedRouter, movieService: movieService)
             viewController.bind(to: viewModel)
             return .push(viewController)
         case .movieDetail(let model):
             let viewController = R.storyboard.home.movieDetailsViewController()!
-            let viewModel = MovieDetailsViewModel(router: unownedRouter, model: model)
+            let viewModel = MovieDetailsViewModel(router: unownedRouter, model: model, movieService: movieService)
             viewController.bind(to: viewModel)
             return .push(viewController)
         }

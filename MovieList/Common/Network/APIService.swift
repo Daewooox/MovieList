@@ -2,14 +2,14 @@ import Foundation
 import Moya
 import RxSwift
 
-enum APIService {
+enum MovieAPIService {
     case getMovieList(page: Int)
     case getMovieCredits(id: String)
     case getGenres
     case getMovieSearchList(page: Int, searchString: String)
 }
 
-extension APIService: TargetType {
+extension MovieAPIService: TargetType {
     var baseURL: URL {
         return APIUrl.baseUrl.apiUrl
     }

@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class MovieListViewController: UIViewController, BindableType {
+final class MovieListViewController: UIViewController, BindableType {
     
     private enum Constants {
         static let navTitle = "🍿 Movies"
@@ -16,21 +16,25 @@ class MovieListViewController: UIViewController, BindableType {
     private let disposeBag = DisposeBag()
     var viewModel: MovieListViewModel!
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var searchBar: UISearchBar!
+    @IBOutlet private var noResultsLabel: UILabel!
     
     func bindViewModel() {
         viewModel.output.movies
-            .bind(to: tableView.rx.items(cellIdentifier: R.reuseIdentifier.movieListTableViewCell.identifier,
-                                         cellType: MovieListTableViewCell.self)) { (_, item, cell) in
+            .do(onNext: { [unowned self] in
+                self.noResultsLabel.isHidden = (!$0.isEmpty && !self.viewModel.output.searchString.value.isEmpty)
+                || self.viewModel.output.searchString.value.isEmpty
+            }).bind(to: tableView.rx.items(cellIdentifier: R.reuseIdentifier.movieListTableViewCell.identifier,
+                                           cellType: MovieListTableViewCell.self)) { (_, item, cell) in
                 cell.configure(with: item)
             }.disposed(by: disposeBag)
         tableView.rx.reachedBottom()
             .bind(to: viewModel.input.loadNextPageTrigger)
             .disposed(by: disposeBag)
         tableView.rx.didScroll
-            .subscribe(onNext: { [unowned self] in
-                self.view.endEditing(true)
+            .subscribe(with: self, onNext: { object, _ in
+                object.view.endEditing(true)
             }).disposed(by: disposeBag)
         tableView.rx.modelSelected(MovieViewModel.self)
             .bind(to: viewModel.input.detailsTrigger)

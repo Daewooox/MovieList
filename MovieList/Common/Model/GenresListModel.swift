@@ -4,7 +4,7 @@ struct GenresListModel: Codable {
     let genres: [GenreModel]
 }
 
-struct GenreModel: Codable {
+struct GenreModel: Codable, Equatable {
     let id: Int
     let name: String
 }

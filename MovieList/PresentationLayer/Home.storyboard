@@ -20,6 +20,12 @@
                                 <rect key="frame" x="8" y="109" width="398" height="753"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49U-Nd-FLX">
+                                <rect key="frame" x="162" y="437.5" width="90" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Sjz-B1-GNk">
                                 <rect key="frame" x="0.0" y="44" width="414" height="65"/>
                                 <constraints>
@@ -31,6 +37,7 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="49U-Nd-FLX" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="Lwt-GI-m6P"/>
                             <constraint firstItem="Jcu-P5-2bW" firstAttribute="top" secondItem="Sjz-B1-GNk" secondAttribute="bottom" id="SOs-vv-8ri"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Jcu-P5-2bW" secondAttribute="bottom" id="WRa-V2-dN5"/>
                             <constraint firstItem="Sjz-B1-GNk" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="cBq-WL-IqK"/>
@@ -38,9 +45,11 @@
                             <constraint firstItem="Sjz-B1-GNk" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="gIz-4J-omQ"/>
                             <constraint firstItem="Jcu-P5-2bW" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="8" id="mS4-9P-KcC"/>
                             <constraint firstItem="Sjz-B1-GNk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="mdM-Jj-1me"/>
+                            <constraint firstItem="49U-Nd-FLX" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="xDX-Lc-U7X"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="noResultsLabel" destination="49U-Nd-FLX" id="9FF-iN-cWz"/>
                         <outlet property="searchBar" destination="Sjz-B1-GNk" id="DTG-yA-JLP"/>
                         <outlet property="tableView" destination="Jcu-P5-2bW" id="Ecg-rv-AgK"/>
                     </connections>

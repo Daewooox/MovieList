@@ -20,17 +20,17 @@ struct MovieViewModel: Hashable {
     }
     
     init(movie: MovieModel, genres: [GenreModel]) {
-        self.id = movie.id
-        self.title = movie.title
+        id = movie.id
+        title = movie.title
         self.genres = genres.filter { movie.genreIds.contains($0.id) }
             .map { $0.name.uppercased() }
             .joined(separator: ", ")
-        self.rate = movie.voteAverage
-        self.overview = movie.overview
+        rate = movie.voteAverage
+        overview = movie.overview
         if let posterPath = movie.posterPath {
-            self.posterImagePath = APIUrl.imageUrl.apiUrl.absoluteString + posterPath
+            posterImagePath = APIUrl.imageUrl.apiUrl.absoluteString + posterPath
         } else {
-            self.posterImagePath = movie.posterPath
+            posterImagePath = movie.posterPath
         }
     }
 
