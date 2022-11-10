@@ -78,6 +78,7 @@ private extension MovieListViewController {
         tableView.clipsToBounds = true
         tableView.layer.cornerRadius = Constants.tableViewCornerRadius
         tableView.rowHeight = Constants.rowHeight
+        tableView.layoutMargins = UIEdgeInsets(top: .zero, left: 8, bottom: .zero, right: 8)
     }
     
 }
