@@ -57,6 +57,7 @@ private extension MovieListViewController {
     
     func setupUI() {
         title = Constants.navTitle
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: Constants.navTitle, style: .plain, target: nil, action: nil)
         setupSearchBar()
         setupTableView()
     }
