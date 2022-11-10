@@ -12,9 +12,13 @@ protocol MovieServiceType {
 
 final class MovieService: MovieServiceType {
     private let provider: MoyaProvider<MovieAPIService>
-    
+    private let decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
     private static var sharedService: MovieService = { return MovieService() }()
-
+    
     static func shared() -> MovieService {
         return sharedService
     }
@@ -27,7 +31,7 @@ final class MovieService: MovieServiceType {
         return provider.rx
             .request(string != nil ? .getMovieSearchList(page: page, searchString: string!) : .getMovieList(page: page))
             .filterSuccessfulStatusCodes()
-            .map(MoviePageModel.self)
+            .map(MoviePageModel.self, using: decoder)
             .flatMap { .just($0.movies) }
             .asObservable()
     }
@@ -35,7 +39,7 @@ final class MovieService: MovieServiceType {
     func getGenresList() -> Observable<[GenreModel]> {
         return provider.rx.request(.getGenres)
             .filterSuccessfulStatusCodes()
-            .map(GenresListModel.self)
+            .map(GenresListModel.self, using: decoder)
             .flatMap { .just($0.genres)}
             .asObservable()
     }
@@ -43,7 +47,7 @@ final class MovieService: MovieServiceType {
     func getMovieCredits(by id: String) -> Observable<MovieCreditsModel> {
         return provider.rx.request(.getMovieCredits(id: id))
             .filterSuccessfulStatusCodes()
-            .map(MovieCreditsModel.self)
+            .map(MovieCreditsModel.self, using: decoder)
             .asObservable()
     }
     

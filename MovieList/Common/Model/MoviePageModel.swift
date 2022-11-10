@@ -7,10 +7,8 @@ struct MoviePageModel: Codable {
     let totalResults: Int
 
     enum CodingKeys: String, CodingKey {
-        case page = "page"
+        case page, totalPages, totalResults
         case movies = "results"
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
     }
 }
 
@@ -29,16 +27,4 @@ struct MovieModel: Codable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case adult, id, overview, popularity, title, video
-        case backdropPath = "backdrop_path"
-        case genreIds = "genre_ids"
-        case originalLanguage = "original_language"
-        case originalTitle = "original_title"
-        case posterPath = "poster_path"
-        case releaseDate = "release_date"
-        case voteAverage = "vote_average"
-        case voteCount = "vote_count"
-    }
 }
