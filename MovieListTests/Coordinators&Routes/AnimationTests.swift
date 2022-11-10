@@ -48,8 +48,6 @@ class AnimationTests: XCTestCase {
         )
     }
 
-    // MARK: Helpers
-
     private func testStandardAnimationsCalled<C: Coordinator, RootViewController>(on coordinator: C) where C.TransitionType == Transition<RootViewController> {
         testStaticAnimationCalled(on: coordinator, transition: { .present(UIViewController(), animation: $0) })
         testStaticAnimationCalled(on: coordinator, transition: { .dismiss(animation: $0) })
